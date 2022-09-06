@@ -23,4 +23,6 @@ yarn install
 
 To start the dev server, run the following command from this directory:
 
-`bash init-web.sh`
+```
+bash init-web.sh
+```

@@ -23,7 +23,8 @@
       "@templates/*": ["components/templates/*"],
       "@assets/*": ["assets/*"],
       "@lib/*": ["lib/*"],
-      "@constants": ["constants"]
+      "@constants": ["constants"],
+      "@store": ["store"]
     }
   },
   "include": ["src"],

@@ -13,6 +13,7 @@ export default defineConfig({
       '@assets': path.resolve('src/assets'),
       '@lib': path.resolve('src/lib'),
       '@constants': path.resolve('src/constants'),
+      '@store': path.resolve('src/store'),
     },
   },
   plugins: [react()],

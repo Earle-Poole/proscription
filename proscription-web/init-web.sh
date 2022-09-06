@@ -1,2 +1,2 @@
-echo "Server started, starting client..."
+echo "Starting client..."
 yarn dev

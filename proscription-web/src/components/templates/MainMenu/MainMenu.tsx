@@ -1,8 +1,12 @@
 import TextInput from '@atoms/TextInput'
-import { API_URL } from '@constants'
+import { API_URL, WEBSOCKET_URL } from '@constants'
 import MainLayout from '@layouts/MainLayout'
 import classNames from 'classnames'
+import { useAtom } from 'jotai'
 import { FieldValues, useForm } from 'react-hook-form'
+import { socketStore } from '@store'
+import { openSocket } from '@lib/toolbox'
+import { useEffect } from 'react'
 
 enum MainMenuInputValues {
   ROOM_CODE = 'room_code',
@@ -10,6 +14,7 @@ enum MainMenuInputValues {
 }
 
 const MainMenu = () => {
+  const [socket, setSocket] = useAtom(socketStore)
   const {
     register,
     handleSubmit,
@@ -17,16 +22,34 @@ const MainMenu = () => {
     formState: { errors },
   } = useForm()
 
-  const onJoinSubmit = (data: FieldValues) =>
-    fetch('http://' + API_URL + '/join', {
+  useEffect(() => {
+    socket && console.log('socket: ', socket)
+  }, [socket])
+
+  const onJoinSubmit = async (data: FieldValues) => {
+    await fetch('http://' + API_URL + '/join', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     })
-  const onCreateSubmit = (data: FieldValues) =>
-    fetch('http://' + API_URL + '/create')
+
+    const newSocket = openSocket(WEBSOCKET_URL)
+    setSocket(newSocket)
+  }
+  const onCreateSubmit = async (data: FieldValues) => {
+    await fetch('http://' + API_URL + '/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+
+    const newSocket = openSocket(WEBSOCKET_URL)
+    setSocket(newSocket)
+  }
   return (
     <MainLayout>
       <main className='absolute bottom-0 left-0 right-0 top-[4.5rem] flex justify-center p-10 bg-indigo-200'>
